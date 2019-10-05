@@ -8,6 +8,7 @@ public class Drop extends RealmObject {
     private String what;
 
     @PrimaryKey
+    private int id;
     private long added;
 
     private long when;
@@ -21,6 +22,14 @@ public class Drop extends RealmObject {
         this.added = added;
         this.when = when;
         this.completed = completed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getWhat() {
@@ -38,7 +47,6 @@ public class Drop extends RealmObject {
     public void setAdded(long added) {
         this.added = added;
     }
-
 
 
     public long getWhen() {

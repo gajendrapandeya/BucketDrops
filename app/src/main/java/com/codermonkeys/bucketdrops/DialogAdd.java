@@ -2,6 +2,7 @@ package com.codermonkeys.bucketdrops;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,19 +70,40 @@ public class DialogAdd extends DialogFragment {
 
     private void addAction() {
 
+        if (!TextUtils.isEmpty(mInputWhat.getText().toString())) {
+            String what = mInputWhat.getText().toString();
+            long now = System.currentTimeMillis();
 
+            final Drop drop = new Drop();
+            drop.setAdded(now);
+            drop.setCompleted(false);
+            drop.setWhat(what);
+            drop.setWhen(0);
+            Realm realm = Realm.getDefaultInstance();
+            realm.executeTransactionAsync(new Realm.Transaction() { // must be in transaction for this to work
+                @Override
+                public void execute(Realm realm) {
+                    // increment index
+                    Number currentIdNum = realm.where(Drop.class).max("id");
 
-        String what = mInputWhat.getText().toString();
-        long now = System.currentTimeMillis();
-        Realm realm = Realm.getDefaultInstance();
-
-        Drop drop = new Drop(what, now, 0, false);
-
-        realm.beginTransaction();
-        realm.copyFromRealm(drop);
-        realm.commitTransaction();
-        realm.close();
-
+                    int nextId;
+                    if (currentIdNum == null) {
+                        nextId = 1;
+                    } else {
+                        nextId = currentIdNum.intValue() + 1;
+                    }
+                    drop.setId(nextId);
+                    //...
+                    realm.insertOrUpdate(drop); // using insert API
+                }
+            }, new Realm.Transaction.OnSuccess() {
+                @Override
+                public void onSuccess() {
+                    dismiss();
+                }
+            });
+        } else
+            Toast.makeText(getContext(), "Textfield should not empty", Toast.LENGTH_SHORT).show();
 
     }
 
