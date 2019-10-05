@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- used for displaying different colors on pressing or without pressing the button -->
+    <dimen name="btn_add_it_corner_radius_purple">2dp</dimen>
+    <dimen name="btn_add_it_corner_radius_green">2dp</dimen>
+
+    <!-- used to display thin line around the button bar-->
+    <dimen name="btn_add_it_stroke_width">1dp</dimen>
+
+    <!-- contains the width and height of the logo -->
+    <dimen name="iv_logo_size_width">192dp</dimen>
+    <dimen name="iv_logo_size_height" >192dp</dimen>
+
+    <!-- displays the logo 84 dp marginal issue -->
+    <dimen name="iv_logo_margin">84dp</dimen>
+
+    <!-- button components -->
+    <dimen name="btn_add_margin">28dp</dimen>
+    <dimen name="btn_add_font_size">28sp</dimen>
+    <dimen name="btn_add_horizontal_padding_left">60dp</dimen>
+    <dimen name="btn_add_horizontal_padding_right" tools:ignore="DuplicateDefinition">60dp</dimen>
+    <dimen name="btn_add_vertical_padding_top" >8dp</dimen>
+    <dimen name="btn_add_vertical_padding_bottom" tools:ignore="DuplicateDefinition">8dp</dimen>
+    <dimen name="tv_title_fontsize">18sp</dimen>
+    <dimen name="tv_title_vertical_margin_bottom">36dp</dimen>
+    <dimen name="tv_title_vertical_margin_top">36dp</dimen>
+</resources>
