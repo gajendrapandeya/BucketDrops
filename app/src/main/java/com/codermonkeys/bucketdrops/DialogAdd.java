@@ -30,8 +30,10 @@ public class DialogAdd extends DialogFragment {
     private EditText mInputWhat;
     private DatePicker mInputWhen;
     private Button mBtnAdd;
+    private OnSuccessListener listener;
 
-    public DialogAdd() {
+    public DialogAdd(OnSuccessListener listener) {
+        this.listener = listener;
     }
 
     @Nullable
@@ -99,12 +101,17 @@ public class DialogAdd extends DialogFragment {
             }, new Realm.Transaction.OnSuccess() {
                 @Override
                 public void onSuccess() {
-                    dismiss();
+                    dismissDialog();
                 }
             });
         } else
             Toast.makeText(getContext(), "Textfield should not empty", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void dismissDialog() {
+        this.listener.onSuccess();
+        dismiss();
     }
 
 

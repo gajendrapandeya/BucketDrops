@@ -51,16 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setData();
-    }
-
     private void initRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
         adapterDrops = new AdapterDrops(this, dropArrayList);
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(adapterDrops);
         setData();
 
@@ -82,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDialogAdd() {
 
-        DialogAdd dialog = new DialogAdd();
+        DialogAdd dialog = new DialogAdd(new OnSuccessListener() {
+            @Override
+            public void onSuccess() {
+                setData();
+            }
+        });
         dialog.show(getSupportFragmentManager(), "Add");
 
     }
