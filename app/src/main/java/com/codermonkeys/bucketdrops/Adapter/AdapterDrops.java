@@ -20,9 +20,9 @@ public class AdapterDrops extends RecyclerView.Adapter<AdapterDrops.DropHolder> 
     
     private LayoutInflater mInflater;
     
-    private RealmResults<Drop> mResults;
+    private ArrayList<Drop> mResults;
 
-    public AdapterDrops(Context context, RealmResults<Drop> results) {
+    public AdapterDrops(Context context, ArrayList<Drop> results) {
 
         
         mInflater = LayoutInflater.from(context);

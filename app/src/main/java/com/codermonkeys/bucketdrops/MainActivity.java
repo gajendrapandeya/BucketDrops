@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codermonkeys.bucketdrops.Adapter.AdapterDrops;
 import com.codermonkeys.bucketdrops.beans.Drop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -22,21 +25,19 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     Toolbar mToolbar;
     private Button mButtonAdd;
-    Realm mRealm;
+    Realm realm;
+    private ArrayList<Drop> dropArrayList = new ArrayList<>();
+    private AdapterDrops adapterDrops;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRealm = Realm.getDefaultInstance();
-      RealmResults<Drop> results = mRealm.where(Drop.class).findAllAsync();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mButtonAdd = (Button) findViewById(R.id.btn_add);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_drops);
-
-
-
-        mRecyclerView.setAdapter(new AdapterDrops(this, results));
+        initRecyclerView();
         setSupportActionBar(mToolbar);
 
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +49,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void initRecyclerView() {
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(manager);
+        adapterDrops = new AdapterDrops(this, dropArrayList);
+        mRecyclerView.setAdapter(adapterDrops);
+        setData();
+
+    }
+
+    private void setData() {
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmResults<Drop> realmList = realm.where(Drop.class).findAll();
+        List<Drop> sales = new ArrayList<>();
+        sales = realm.copyFromRealm(realmList);
+        realm.commitTransaction();
+        if (sales != null && sales.size() > 0) {
+            dropArrayList.clear();
+            dropArrayList.addAll(sales);
+            adapterDrops.notifyDataSetChanged();
+        }
     }
 
     private void showDialogAdd() {
